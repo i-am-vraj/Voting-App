@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/bjp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/bjp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pname"
+        android:layout_below="@+id/bjp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="Bhartiya Janta Party (BJP)"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/precorded"
+        android:layout_below="@+id/pname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Gujarat Model, Make in India, Swachha Bharat"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pleadername"
+        android:layout_below="@+id/precorded"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Narendra Modi, Amit Shah"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bcandidate"
+        android:text="See Candidate"
+        android:layout_below="@+id/pleadername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:textAlignment="center"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/maps"
+        android:text="See Activity"
+        android:layout_below="@+id/bcandidate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="1dp"
+        android:textAlignment="center"
+        />
+</RelativeLayout>
