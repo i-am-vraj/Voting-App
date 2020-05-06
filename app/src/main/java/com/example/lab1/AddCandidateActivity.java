@@ -1,28 +1,36 @@
 package com.example.lab1;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.FileProvider;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.example.lab1.channelClass.CHANNEL_1_ID;
+import static com.example.lab1.channelClass.CHANNEL_2_ID;
 
 public class AddCandidateActivity extends AppCompatActivity {
 
@@ -38,6 +46,8 @@ public class AddCandidateActivity extends AppCompatActivity {
     EditText workET;
     EditText earningET;
 
+
+    private NotificationManagerCompat notificationManager;
 
     private Bitmap bitmap;
     final int Image_Capture_Code = 1;
@@ -125,38 +135,73 @@ public class AddCandidateActivity extends AppCompatActivity {
         databaseManager = new DatabaseManager(this);
         databaseManager.open();
 
+        //disappear
+//        imageView.setVisibility(View.GONE);
+//        imageView2.setVisibility(View.GONE);
+//        addImage.setVisibility(View.GONE);
+//        addImage2.setVisibility(View.GONE);
+
+        notificationManager = NotificationManagerCompat.from(this);
+
         String str= Environment.getExternalStorageDirectory() + "/CameraExample";
         Toast.makeText(this, str, Toast.LENGTH_LONG).show();
 
-        addTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String name = nameET.getText().toString();
-                final String basicEdu = basicEduET.getText().toString();
-                final String past = pastET.getText().toString();
-                final String work = workET.getText().toString();
-                final String earning = earningET.getText().toString();
-
-
-                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageInByte = baos.toByteArray();
-                Log.e("ERRRR",imageInByte.toString());
-
-                Bitmap bitmap2 = ((BitmapDrawable) imageView2.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-                bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, baos2);
-                byte[] imageInByte2 = baos2.toByteArray();
-                Log.e("ERRRR",imageInByte2.toString());
-
-                databaseManager.insert(name, basicEdu, past, work, earning, imageInByte, imageInByte2);
-
-                Intent main = new Intent(AddCandidateActivity.this, CRUDActivity.class);
-
-                startActivity(main);
-            }
-        });
+//        addTo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final String name = nameET.getText().toString();
+//                final String basicEdu = basicEduET.getText().toString();
+//                final String past = pastET.getText().toString();
+//                final String work = workET.getText().toString();
+//                final String earning = earningET.getText().toString();
+//
+////
+////                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+////                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+////                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+////                byte[] imageInByte = baos.toByteArray();
+////                Log.e("ERRRR",imageInByte.toString());
+////
+////                Bitmap bitmap2 = ((BitmapDrawable) imageView2.getDrawable()).getBitmap();
+////                ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+////                bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, baos2);
+////                byte[] imageInByte2 = baos2.toByteArray();
+////                Log.e("ERRRR",imageInByte2.toString());
+//
+//                //databaseManager.insert(name, basicEdu, past, work, earning, imageInByte, imageInByte2);
+//
+//                Intent main = new Intent(AddCandidateActivity.this, CRUDActivity.class);
+//
+//                Intent activityIntent = new Intent(AddCandidateActivity.this, CRUDActivity.class);
+//                PendingIntent contentIntent = PendingIntent.getActivity(AddCandidateActivity.this,
+//                        0, activityIntent, 0);
+//
+//                Intent broadcastIntent = new Intent(AddCandidateActivity.this, NotificationReceiver.class);
+//                broadcastIntent.putExtra("toastMessage", name);
+//
+//                PendingIntent actionIntent = PendingIntent.getBroadcast(AddCandidateActivity.this,
+//                        0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//                Notification notification = new NotificationCompat.Builder(AddCandidateActivity.this, CHANNEL_1_ID)
+//                        .setSmallIcon(R.drawable.modiji)
+//                        .setContentTitle(name)
+//                        .setContentText(basicEdu)
+//                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                        .setColor(Color.BLUE)
+//                        .setContentIntent(contentIntent)
+//                        .setAutoCancel(true)
+//                        .setOnlyAlertOnce(true)
+//                        .addAction(R.mipmap.ic_launcher, "Action 1", actionIntent)
+//                        .build();
+//
+//                notificationManager.notify(1, notification);
+//
+//                Toast.makeText(AddCandidateActivity.this, "NO NOTIFICATION", Toast.LENGTH_SHORT).show();
+//
+//                //startActivity(main);
+//            }
+//        });
 
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +216,8 @@ public class AddCandidateActivity extends AppCompatActivity {
                 dispatchTakePictureIntent(2);
             }
         });
+
+
     }
 
 
@@ -200,5 +247,83 @@ public class AddCandidateActivity extends AppCompatActivity {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
+    }
+
+
+    public void sendOnChannel1(View v) {
+        final String name = nameET.getText().toString();
+        final String basicEdu = basicEduET.getText().toString();
+        final String past = pastET.getText().toString();
+        final String work = workET.getText().toString();
+        final String earning = earningET.getText().toString();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_1_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is Channel 1");
+
+            NotificationChannel channel2 = new NotificationChannel(
+                    CHANNEL_2_ID,
+                    "Channel 2",
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            channel2.setDescription("This is Channel 2");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+            manager.createNotificationChannel(channel2);
+        }
+
+        Intent activityIntent = new Intent(this,
+                ModifyCandidateActivity.class);
+
+        activityIntent.putExtra("cid",8);
+        activityIntent.putExtra("pqual", basicEdu);
+        activityIntent.putExtra("cname", name);
+        activityIntent.putExtra("cwork", work);
+        activityIntent.putExtra("cpast", past);
+        activityIntent.putExtra("cproperty", earning);
+
+        
+        PendingIntent contentIntent = PendingIntent.getActivity(this,
+                0, activityIntent, 0);
+
+        Intent broadcastIntent = new Intent(this,
+                NotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage", name);
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this,
+                0, broadcastIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Bitmap largeIcon = BitmapFactory.decodeResource(
+                getResources(), R.drawable.modiji);
+
+        Notification notification = new NotificationCompat.Builder(
+                this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.modiji)
+                .setContentTitle(name)
+                .setContentText(basicEdu)
+                .setLargeIcon(largeIcon)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("hello")
+                        .setBigContentTitle(name)
+                        .setSummaryText(basicEdu))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setColor(Color.BLUE)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .addAction(R.mipmap.ic_launcher, "Toast",
+                        actionIntent)
+                .build();
+
+
+
+        databaseManager.insert(name, basicEdu, past, work, earning);
+        notificationManager.notify(1, notification);
     }
 }

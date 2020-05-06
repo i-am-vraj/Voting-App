@@ -38,6 +38,15 @@ public class DatabaseManager {
         contentValues.put(DatabaseHelper.COL_SIGNIMAGE, img2);
         database.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
     }
+    public void insert(String NAME, String BASICEDU, String NOTABLEWORKS, String HISTORY, String EARNINGS) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.COL_NAME, NAME);
+        contentValues.put(DatabaseHelper.COL_BASICEDU, BASICEDU);
+        contentValues.put(DatabaseHelper.COL_NOTABLEWORKS, NOTABLEWORKS);
+        contentValues.put(DatabaseHelper.COL_HISTORY, HISTORY);
+        contentValues.put(DatabaseHelper.COL_EARNINGS, EARNINGS);
+        database.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
+    }
 
     public Cursor fetch() {
         String[] cols = new String[]{ DatabaseHelper.COL_CID, DatabaseHelper.COL_NAME, DatabaseHelper.COL_BASICEDU, DatabaseHelper.COL_NOTABLEWORKS, DatabaseHelper.COL_HISTORY, DatabaseHelper.COL_EARNINGS};

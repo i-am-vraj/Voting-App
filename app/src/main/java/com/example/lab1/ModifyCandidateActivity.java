@@ -1,15 +1,13 @@
 package com.example.lab1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ModifyCandidateActivity extends AppCompatActivity {
 
@@ -44,6 +42,10 @@ public class ModifyCandidateActivity extends AppCompatActivity {
         imgView1 = findViewById(R.id.img1);
         imgView2 = findViewById(R.id.img2);
 
+        //disappear
+        imgView1.setVisibility(View.GONE);
+        imgView2.setVisibility(View.GONE);
+
         update = findViewById(R.id.update_button);
         delete = findViewById(R.id.delete_button);
 
@@ -56,12 +58,12 @@ public class ModifyCandidateActivity extends AppCompatActivity {
         String past = intent.getStringExtra("cpast");
         String property = intent.getStringExtra("cproperty");
 
-        byte[] img1 = intent.getByteArrayExtra("img1");
-        byte[] img2 = intent.getByteArrayExtra("img2");
-        Bitmap bitmap1 = BitmapFactory.decodeByteArray(img1, 0, img1.length);
-        Bitmap bitmap2 = BitmapFactory.decodeByteArray(img2, 0, img2.length);
-        imgView1.setImageBitmap(bitmap1);
-        imgView2.setImageBitmap(bitmap2);
+//        byte[] img1 = intent.getByteArrayExtra("img1");
+//        byte[] img2 = intent.getByteArrayExtra("img2");
+//        Bitmap bitmap1 = BitmapFactory.decodeByteArray(img1, 0, img1.length);
+//        Bitmap bitmap2 = BitmapFactory.decodeByteArray(img2, 0, img2.length);
+//        imgView1.setImageBitmap(bitmap1);
+//        imgView2.setImageBitmap(bitmap2);
 
         nameET.setText(name);
         workingsET.setText(work);
